@@ -1,0 +1,58 @@
+{
+    "Version": 1,
+    "UUID": "801f73f0-8ab0-11e8-b7db-685b35836414",
+    "Name": "backupApp",
+    "Properties": {
+        "description": "provides local chain backup services via bridging",
+        "language": "en"
+    },
+    "PropertiesSchemaFile": "properties_schema.json",
+    "BasedOn": "",
+    "RequiresVersion": 26,
+    "DHTConfig": {
+        "HashType": "sha2-256",
+        "RedundancyFactor": 0
+    },
+    "Zomes": [
+        {
+            "Name": "backupChain",
+            "Description": "provide a sample zome",
+            "CodeFile": "backupChain.js",
+            "RibosomeType": "js",
+            "BridgeFuncs": ["backup", "restore"],
+            "Config": {
+              "ErrorHandling": "throwErrors"
+            },
+            "Entries": [
+                {
+                    "Name": "chainEntry",
+                    "DataFormat": "json",
+                    "SchemaFile": "chainEntrySchema.json",
+                    "Sharing": "public"
+                },
+                {
+                    "Name": "entryLink",
+                    "DataFormat": "links",
+                    "Sharing": "public"                  
+                }
+            ],
+            "Functions": [
+                {
+                    "Name": "backup",
+                    "CallingType": "json",
+                    "Exposure": "public"
+                },
+                {
+                    "Name": "restore",
+                    "CallingType": "json",
+                    "Exposure": "public"
+                },
+                {
+                    "Name": "backupBatch",
+                    "CallingType": "json",
+                    "Exposure": "public"
+                }
+            ]
+        }
+    ]
+}

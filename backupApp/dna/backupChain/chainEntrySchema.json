@@ -1,0 +1,42 @@
+{
+	"title": "Chain Entry Schema",
+  "description" : "Represents a single chain entry backup from another app",
+
+  "definitions": {
+    "hash" : {
+      "type" : "string",
+      "minLength" : 46,
+      "maxLength" : 46
+    },
+    "signature": {
+      "type" : "array",
+      "minItems" : 64,
+      "maxItems" : 64,
+      "items" : {
+        "type" : "integer",
+        "minimum" : 0,
+        "maximum" : 255
+      }
+    }
+  },
+
+	"type": "object",
+	"properties": {
+		"sourceAppDNA" : {"type" : "string"},
+    "header" : {
+      "type" : "object",
+      "properties" : {
+        "type" : {"type" : "string"},
+        "sig" : { "$ref": "#/definitions/signature" },
+        "hash" : { "$ref": "#/definitions/hash" },
+        "time" : {"type" : "string"},
+        "nextHeader" : { "$ref": "#/definitions/hash" },
+        "next" : { "type": "string" },
+        "entry" : { "$ref": "#/definitions/hash" }
+      },
+      "required" : ["type", "sig", "hash", "time", "nextHeader", "next", "entry"]
+    },
+    "content" : {"type" : ["string", "object"]}
+	},
+  "required" : ["sourceAppDNA", "header", "content"]
+}

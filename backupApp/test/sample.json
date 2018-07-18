@@ -1,0 +1,21 @@
+{
+    "Tests": [
+        {
+            "Convey": "Can backup an entry object",
+            "Zome": "backupChain",
+            "FnName": "backup",
+            "Input": {
+              "content":{"name": "Saske"},
+              "header":{
+                "entry":"QmYDPMfLSwavWgFcjBbDmpGG3TGZgfuz83QDWiZgECCVZJ",
+                "hash":"QmYDPMfLSwavWgFcjBbDmpGG3TGZgfuz83QDWiZgECCVZJ",
+                "next":"profile_string :QmbJ1qzMVsnTLbBVgRQTv6qTbJsoWbhRf4ADu88hmwVHsC",
+                "nextHeader":"QmbJ1qzMVsnTLbBVgRQTv6qTbJsoWbhRf4ADu88hmwVHsC",
+                "sig":[12,31,245,205,93,183,141,225,141,128,218,158,139,30,28,106,175,107,45,168,177,18,36,76,97,216,155,206,105,233,132,242,243,124,208,101,84,179,84,34,235,143,132,141,248,235,155,182,36,135,162,240,14,43,244,229,42,184,77,130,157,255,20,4],
+                "time":"2018-07-18T20:07:00Z",
+                "type":"profile_string"},
+              "sourceAppDNA":"QmeX3U8PBX98kvARxNXLXztTQ2NupHg7JKNbvfgArkV3my"},
+            "Output": "%h1%"
+        }
+    ]
+}

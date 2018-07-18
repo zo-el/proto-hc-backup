@@ -1,0 +1,46 @@
+{
+  "Tests": [
+    {
+      "Convey": "auto-generated test for profileCreate",
+      "Zome": "needs_backup",
+      "FnName": "profileCreate",
+      "Input": {
+        "age": 100,
+        "name": "Zo-el",
+        "tags": [
+          "Thats my name"
+        ]
+      },
+      "Output": "%h%"
+    },
+    {
+      "Convey": "auto-generated test for profile_stringCreate",
+      "Zome": "needs_backup",
+      "FnName": "profile_stringCreate",
+      "Input": "Sakura",
+      "Output": "%h%"
+    },
+    {
+      "Convey": "auto-generated test for profile_stringCreate",
+      "Zome": "needs_backup",
+      "FnName": "profile_stringCreate",
+      "Input": "Saske",
+      "Output": "%h%"
+    },
+
+    {
+      "Convey": "Can retrieve the local chain stored so far",
+      "Zome": "needs_backup",
+      "FnName": "loadBackup",
+      "Input": {},
+      "RegExp": ".*"
+    },
+    {
+      "Convey": "Can retrieve the local chain stored so far",
+      "Zome": "needs_backup",
+      "FnName": "backupAll",
+      "Input": {},
+      "Output": "%h%"
+    }
+  ]
+}
