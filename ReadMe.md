@@ -1,3 +1,22 @@
+# Holochain Chain Backup App
+This document covers the sequences of recovering a local chain in the case of data loss using a backup app
+
+## Creating Backups
+- Any app wishing to allow restore from backup functionality must bridge to the backup app
+- In validateCommit (adding anything to local chain) it must also call a backup function across the bridge and pass it the data to be added
+- This data will be encrypted and stored on the backup app DHT including all metadata (timestamp, sources, signature etc.).
+
+
+## Restoring from backup
+- Install Holochain which lead you to install DPKI
+- Install the backup app with identical DNA to the one that was used to create the backup
+- Use the DPKI to restore you Backup app Public key
+- Use the following call for installing your apps.  
+```
+hcadmin restore ./apprepo backupAppName
+```
+This triggers the following actions:
+
 ## Test App for Backup's
 
 ## Recomended way to use the back-up function
