@@ -35,15 +35,15 @@
       "Output": "%h6%"
     },
     {
-      "Convey": "5. backup all the old entires",
-      "Zome": "needs_backup",
+      "Convey": "4. backup all the old entires",
+      "Zome": "backup",
       "FnName": "backupAll",
       "Input": {},
       "RegExp": ".*"
     },
     {
-      "Convey": "4. Can retrieve the local chain stored so far",
-      "Zome": "needs_backup",
+      "Convey": "5. Can retrieve the local chain stored so far",
+      "Zome": "backup",
       "FnName": "loadBackup",
       "Input": {},
       "RegExp": ".*"

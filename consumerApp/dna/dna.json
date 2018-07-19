@@ -110,6 +110,32 @@
           "CallingType": "string"
         }
       ]
-  }
+  },
+  {
+    "Name": "backup",
+    "Description": "backupApp mixin",
+    "RibosomeType": "js",
+    "CodeFile": "backup.js",
+    "Config": {
+      "ErrorHandling": "throwErrors"
+    },
+    "Entries": [
+      
+    ],
+    "Functions": [
+      {
+        "Name": "backupCommit",
+        "CallingType": "json"
+      },
+      {
+        "Name": "loadBackup",
+        "CallingType": "json"
+      },
+      {
+        "Name": "backupAll",
+        "CallingType": "json"
+      }
+    ]
+}
   ]
 }

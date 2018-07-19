@@ -65,58 +65,17 @@ function anchors(type){
 }
 
 // -----------------------------------------------------------------
-//  Backup Functions
+//  Callback Backup Functions
 // -----------------------------------------------------------------
 
-
-function backupCommit(entryName, entry, header){
-  var backupEnabled = getBackupAppsHash().length > 0;
-
-  if (backupEnabled) {
-    debug("consumerApp: Calling backup App!");
-    var backup_commit = {
-    sourceAppDNA:App.DNA.Hash,
-    header: {
-      type : entryName,
-      sig : header.Sig,
-      hash : makeHash(entryName,entry),
-      time : header.Time,
-      nextHeader : header.NextHeader,
-      next : entryName+" :"+header.Next,
-      entry : header.EntryLink,
-    },
-    content:entry,
-    }
-    bridge(getBackupAppsHash()[0].CalleeApp, 'backupChain', 'backup', backup_commit);
-  }
-}
-
-function loadBackup() {
-  var backup = bridge(getBackupAppsHash()[0].CalleeApp, 'backupChain', 'restore', {"Hash":App.DNA.Hash});
-  return backup
-}
-
-function getBackupAppsHash() {
-  return backupApps = getBridges().filter(function(elem) {
-    return elem.CalleeName === 'backupApp'
+function backupCommit(entryName,entry,header) {
+  return call('backup', 'backupCommit', {
+    entryName : entryName,
+    entry : entry,
+    header : header
   });
 }
 
-function backupAll() {
-
-  debug('about to query')
-  var allEntries = query({
-    Return: {
-      Hashes: true,
-      Entries: true,
-      Headers:true
-    }
-  });
-
-  debug(allEntries)
-
-  // return bridge(getBackupAppsHash()[0].CalleeApp, 'backupChain', 'backupBatch', allEntries);
-}
 
 // -----------------------------------------------------------------
 //  Validation functions for every change to the local chain or DHT
