@@ -80,7 +80,7 @@ function bridgeGenesis(side, dna, appData) {
 /**** Backup Function ****/
 
 
-function backup(entryName, entry, header){
+function backupCommit(entryName, entry, header){
   var backupEnabled = getBackupApps().length > 0;
 
   if (backupEnabled) {
@@ -110,7 +110,7 @@ function validateCommit (entryName, entry, header, pkg, sources) {
   // debug("entry_type:"+entryName+"entry"+JSON.stringify(entry)+"header"+JSON.stringify(header)+"PKG: "+JSON.stringify(pkg)+"sources"+sources);
 
   if (validate(entryName, entry, header, pkg, sources)) {
-    backup(entryName, entry, header);
+    backupCommit(entryName, entry, header);
     return true;
   }
   return false;
