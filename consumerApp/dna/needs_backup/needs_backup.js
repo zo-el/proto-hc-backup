@@ -1,5 +1,21 @@
 'use strict';
 
+/*----------  Anchor API  ----------*/
+
+function anchor(anchorType, anchorText) {
+  return call('anchors', 'anchor', {
+    anchorType: anchorType,
+    anchorText: anchorText
+  }).replace(/"/g, '');
+}
+
+function anchorExists(anchorType, anchorText) {
+  return call('anchors', 'exists', {
+    anchorType: anchorType,
+    anchorText: anchorText
+  });
+}
+
 // -----------------------------------------------------------------
 //  Exposed functions
 // -----------------------------------------------------------------
@@ -14,6 +30,13 @@ function profile_stringCreate (profile_stringEntry) {
   return profile_stringHash;
 }
 
+function testingAnchorsAndLinks(profile_stringEntry){
+  hash = commit("profile_string", profile_stringEntry);
+  commit('profile_link', {
+    Links: [ { Base: anchor(App.DNA.Hash,""), Link: hash, Tag: 'profile' } ]
+  });
+  return hash
+}
 
 // -----------------------------------------------------------------
 //  Backup Functions
@@ -22,22 +45,23 @@ function profile_stringCreate (profile_stringEntry) {
 
 function backupCommit(entryName, entry, header){
   var backupEnabled = getBackupAppsHash().length > 0;
-
+ debug("Header: "+JSON.stringify(header))
   if (backupEnabled) {
     debug("consumerApp: Calling backup App!");
     var backup_commit = {
     sourceAppDNA:App.DNA.Hash,
     header: {
       type : entryName,
-      sig : JSON.parse(header.Sig.replace(/ /g,',').replace(/['{''}']/g, '')),
+      sig : header.Signature,
       hash : makeHash(entryName,entry),
       time : header.Time,
-      nextHeader : header.NextHeader,
-      next : entryName+" :"+header.Next,
+      nextHeader : header.HeaderLink,
+      next : entryName+" :"+header.TypeLink,
       entry : header.EntryLink,
     },
     content:entry,
     }
+    debug("Sending to be backed up --->"+JSON.stringify(backup_commit));
     bridge(getBackupAppsHash()[0].CalleeApp, 'backupChain', 'backup', backup_commit);
   }
 }
@@ -61,13 +85,13 @@ function backupAll() {
       Hashes: true,
       Entries: true,
       Headers:true
-    },
-    Constrain: {
-      EntryTypes: ["profile","profileString","%agent"]
     }
   });
 
-  debug(allEntries)
+  allEntries.forEach(function (entry){
+      backupCommit(entry.Header.Type,entry.Entry,entry.Header);
+  });
+
 
   // return bridge(getBackupAppsHash()[0].CalleeApp, 'backupChain', 'backupBatch', allEntries);
 }
@@ -111,6 +135,8 @@ function validate(entryName, entry, header, pkg, sources){
       return true;
     case "profile_string":
       return true;
+    case "profile_link":
+      return true;
     default:
       return false;
   }
@@ -152,8 +178,8 @@ function validateDel (entryName, hash, pkg, sources) {
 
 function validateLink (entryName, baseHash, links, pkg, sources) {
   switch (entryName) {
-    case "profile":
-      return false;
+    case "profile_link":
+      return true;
     case "profile_string":
       return false;
     default:

@@ -32,6 +32,10 @@
           "Required": true,
           "DataFormat": "string",
           "Sharing": "public"
+        },
+        {
+          "Name": "profile_link",
+          "DataFormat": "links"
         }
       ],
       "Functions": [
@@ -56,6 +60,11 @@
           "Exposure": "public"
         },
         {
+          "Name": "testingAnchorsAndLinks",
+          "CallingType": "json",
+          "Exposure": "public"
+        },
+        {
           "Name": "loadBackup",
           "CallingType": "string",
           "Exposure": "public"
@@ -66,6 +75,41 @@
           "Exposure": "public"
         }
       ]
-    }
+    },
+    {
+      "Name": "anchors",
+      "Description": "anchors mixin",
+      "RibosomeType": "js",
+      "CodeFile": "anchors.js",
+      "Config": {
+        "ErrorHandling": "throwErrors"
+      },
+      "Entries": [
+        {
+          "Name": "anchor",
+          "DataFormat": "json",
+          "SchemaFile": "anchor.json",
+          "Sharing": "public"
+        },
+        {
+          "Name": "anchor_link",
+          "DataFormat": "links"
+        }
+      ],
+      "Functions": [
+        {
+          "Name": "anchor",
+          "CallingType": "json"
+        },
+        {
+          "Name": "exists",
+          "CallingType": "json"
+        },
+        {
+          "Name": "anchors",
+          "CallingType": "string"
+        }
+      ]
+  }
   ]
 }

@@ -27,20 +27,26 @@
       "Input": "Saske",
       "Output": "%h%"
     },
-
     {
-      "Convey": "3. Can retrieve the local chain stored so far",
+      "Convey": "3. test the links to be backed up",
       "Zome": "needs_backup",
-      "FnName": "loadBackup",
+      "FnName": "testingAnchorsAndLinks",
+      "Input": "Zora",
+      "Output": "%h6%"
+    },
+    {
+      "Convey": "5. backup all the old entires",
+      "Zome": "needs_backup",
+      "FnName": "backupAll",
       "Input": {},
       "RegExp": ".*"
     },
     {
       "Convey": "4. Can retrieve the local chain stored so far",
       "Zome": "needs_backup",
-      "FnName": "backupAll",
+      "FnName": "loadBackup",
       "Input": {},
-      "Output": "%h%"
+      "RegExp": ".*"
     }
   ]
 }

@@ -7,16 +7,6 @@
       "type" : "string",
       "minLength" : 46,
       "maxLength" : 46
-    },
-    "signature": {
-      "type" : "array",
-      "minItems" : 64,
-      "maxItems" : 64,
-      "items" : {
-        "type" : "integer",
-        "minimum" : 0,
-        "maximum" : 255
-      }
     }
   },
 
@@ -27,7 +17,7 @@
       "type" : "object",
       "properties" : {
         "type" : {"type" : "string"},
-        "sig" : { "$ref": "#/definitions/signature" },
+        "sig" : {"type" : "string"},
         "hash" : { "$ref": "#/definitions/hash" },
         "time" : {"type" : "string"},
         "nextHeader" : { "$ref": "#/definitions/hash" },

@@ -13,7 +13,7 @@ function backup(entry) {
   var hash = commit('chainEntry', entry);
   debug("entry stored at: "+hash);
   commit('entryLink', {
-    Links: [ { Base: anchor(entry.sourceAppDNA,App.Key.Hash), Link: hash, Tag: 'backup' } ]
+    Links: [ { Base: anchor(App.Key.Hash,entry.sourceAppDNA), Link: hash, Tag: 'backup' } ]
   });
   return hash;
 }
@@ -29,7 +29,7 @@ function backupBatch(entries) {
  */
 function restore(sourceApp) {
   debug('restoring chain')
-  var entries = getLinks(anchor(sourceApp.Hash,App.Key.Hash), 'backup', {Load: true});
+  var entries = getLinks(anchor(App.Key.Hash,sourceApp.Hash), 'backup', {Load: true});
   debug(JSON.stringify(entries, null, 2))
   return entries;
 }
