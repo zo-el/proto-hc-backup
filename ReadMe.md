@@ -7,28 +7,38 @@
 > Need to use call the Zome: backupChain | ZomeFunction: backup ;
 > Recomended to call in the Validation;
 
+backupCommit Function:
 ~~~
-function validateCommit (entryName, entry, header, pkg, sources) {
+function backupCommit(entryName, entry, header){
   var backupEnabled = getBackupApps().length > 0;
 
-  if (validate(entryName, entry, header, pkg, sources)) {
-    if (backupEnabled) {
-      debug("consumerApp: Calling backup App!");
-      var backup_commit = {
-      sourceAppDNA:App.DNA.Hash,
-      header: {
-        type : entryName,
-        sig : JSON.parse(header.Sig.replace(/ /g,',').replace(/['{''}']/g, '')),
-        hash : makeHash(entryName,entry),
-        time : header.Time,
-        nextHeader : header.NextHeader,
-        next : entryName+" :"+header.Next,
-        entry : header.EntryLink,
-      },
-      content:entry,
-      }
-      bridge(getBackupApps()[0].CalleeApp, 'backupChain', 'backup', backup_commit);
+  if (backupEnabled) {
+    debug("consumerApp: Calling backup App!");
+    var backup_commit = {
+    sourceAppDNA:App.DNA.Hash,
+    header: {
+      type : entryName,
+      sig : JSON.parse(header.Sig.replace(/ /g,',').replace(/['{''}']/g, '')),
+      hash : makeHash(entryName,entry),
+      time : header.Time,
+      nextHeader : header.NextHeader,
+      next : entryName+" :"+header.Next,
+      entry : header.EntryLink,
+    },
+    content:entry,
     }
+    bridge(getBackupApps()[0].CalleeApp, 'backupChain', 'backup', backup_commit);
+  }
+}
+~~~
+
+
+Validation Functions:
+~~~
+
+function validateCommit (entryName, entry, header, pkg, sources) {
+  if (validate(entryName, entry, header, pkg, sources)) {
+    backup(entryName, entry, header);
     return true;
   }
   return false;
@@ -44,7 +54,6 @@ function validate(entryName, entry, header, pkg, sources){
       return false;
   }
 }
-
 
 ~~~
 
