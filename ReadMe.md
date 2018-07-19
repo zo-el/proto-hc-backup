@@ -9,6 +9,10 @@
 
 backupCommit Function:
 ~~~
+// -----------------------------------------------------------------
+//  Backup Functions
+// -----------------------------------------------------------------
+
 function backupCommit(entryName, entry, header){
   var backupEnabled = getBackupApps().length > 0;
 
@@ -62,8 +66,18 @@ function validate(entryName, entry, header, pkg, sources){
 > need to call Zome: backupChain | ZomeFunction: restore
 
 ~~~
+// -----------------------------------------------------------------
+//  Backup Functions
+// -----------------------------------------------------------------
+
 function loadBackup() {
   var backup = bridge(getBackupApps()[0].CalleeApp, 'backupChain', 'restore', {});
   return backup
+}
+
+function getBackupAppsHash() {
+  return backupApps = getBridges().filter(function(elem) {
+    return elem.CalleeName === 'backupApp'
+  });
 }
 ~~~

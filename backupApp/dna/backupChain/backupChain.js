@@ -12,8 +12,8 @@ function backup(entry) {
   debug('commiting backup entry')
   var hash = commit('chainEntry', entry);
   debug("entry stored at: "+hash);
-  commit('entryLink', { 
-    Links: [ { Base: App.Key.Hash, Link: hash, Tag: '' } ]
+  commit('entryLink', {
+    Links: [ { Base: anchor(entry.sourceAppDNA,App.Key.Hash), Link: hash, Tag: 'backup' } ]
   });
   return hash;
 }
@@ -27,16 +27,30 @@ function backupBatch(entries) {
 /**
  * Restores an entire local chain and returns it in json object representation
  */
-function restore() {
+function restore(sourceApp) {
   debug('restoring chain')
-  var entries = getLinks(App.Key.Hash, '', {Load: true});
+  var entries = getLinks(anchor(sourceApp.Hash,App.Key.Hash), 'backup', {Load: true});
   debug(JSON.stringify(entries, null, 2))
   return entries;
 }
 
 /*=====  End of Public Zome Functions  ======*/
 
+/*----------  Anchor API  ----------*/
 
+function anchor(anchorType, anchorText) {
+  return call('anchors', 'anchor', {
+    anchorType: anchorType,
+    anchorText: anchorText
+  }).replace(/"/g, '');
+}
+
+function anchorExists(anchorType, anchorText) {
+  return call('anchors', 'exists', {
+    anchorType: anchorType,
+    anchorText: anchorText
+  });
+}
 
 /*==========================================
 =             Callbacks                    =
@@ -90,4 +104,3 @@ function validateDelPkg (entryType) {
 }
 
 /*=====  End of  Callbacks  ======*/
-

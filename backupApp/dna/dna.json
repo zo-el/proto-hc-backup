@@ -33,7 +33,7 @@
                 {
                     "Name": "entryLink",
                     "DataFormat": "links",
-                    "Sharing": "public"                  
+                    "Sharing": "public"
                 }
             ],
             "Functions": [
@@ -53,6 +53,41 @@
                     "Exposure": "public"
                 }
             ]
-        }
+        },
+        {
+          "Name": "anchors",
+          "Description": "anchors mixin",
+          "RibosomeType": "js",
+          "CodeFile": "anchors.js",
+          "Config": {
+            "ErrorHandling": "throwErrors"
+          },
+          "Entries": [
+            {
+              "Name": "anchor",
+              "DataFormat": "json",
+              "SchemaFile": "anchor.json",
+              "Sharing": "public"
+            },
+            {
+              "Name": "anchor_link",
+              "DataFormat": "links"
+            }
+          ],
+          "Functions": [
+            {
+              "Name": "anchor",
+              "CallingType": "json"
+            },
+            {
+              "Name": "exists",
+              "CallingType": "json"
+            },
+            {
+              "Name": "anchors",
+              "CallingType": "string"
+            }
+          ]
+      }
     ]
 }
