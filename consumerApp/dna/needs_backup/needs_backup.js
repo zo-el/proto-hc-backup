@@ -20,20 +20,24 @@ function anchorExists(anchorType, anchorText) {
 //  Exposed functions
 // -----------------------------------------------------------------
 
-function profileCreate (profileEntry) {
+function profileCreate(profileEntry) {
   var profileHash = commit("profile", profileEntry);
   return profileHash;
 }
 
-function profile_stringCreate (profile_stringEntry) {
+function profile_stringCreate(profile_stringEntry) {
   var profile_stringHash = commit("profile_string", profile_stringEntry);
   return profile_stringHash;
 }
 
-function testingAnchorsAndLinks(profile_stringEntry){
+function testingAnchorsAndLinks(profile_stringEntry) {
   hash = commit("profile_string", profile_stringEntry);
   commit('profile_link', {
-    Links: [ { Base: anchor(App.DNA.Hash,""), Link: hash, Tag: 'profile' } ]
+    Links: [{
+      Base: anchor(App.DNA.Hash, ""),
+      Link: hash,
+      Tag: 'profile'
+    }]
   });
   return hash
 }
@@ -42,11 +46,11 @@ function testingAnchorsAndLinks(profile_stringEntry){
 //  Callback Backup Functions
 // -----------------------------------------------------------------
 
-function backupCommit(entryName,entry,header) {
+function backupCommit(entryName, entry, header) {
   return call('backup', 'backupCommit', {
-    entryName : entryName,
-    entry : entry,
-    header : header
+    entryName: entryName,
+    entry: entry,
+    header: header
   });
 }
 
@@ -58,8 +62,8 @@ function backupCommit(entryName,entry,header) {
  * Called only when your source chain is generated
  * @return {boolean} success
  */
-function genesis () {
-//Testing
+function genesis() {
+  //Testing
   return true;
 }
 
@@ -72,7 +76,7 @@ function bridgeGenesis(side, dna, appData) {
 //  Validation functions for every change to the local chain or DHT
 // -----------------------------------------------------------------
 
-function validateCommit (entryName, entry, header, pkg, sources) {
+function validateCommit(entryName, entry, header, pkg, sources) {
   // debug("entry_type:"+entryName+"entry"+JSON.stringify(entry)+"header"+JSON.stringify(header)+"PKG: "+JSON.stringify(pkg)+"sources"+sources);
 
   if (validate(entryName, entry, header, pkg, sources)) {
@@ -82,7 +86,7 @@ function validateCommit (entryName, entry, header, pkg, sources) {
   return false;
 }
 
-function validate(entryName, entry, header, pkg, sources){
+function validate(entryName, entry, header, pkg, sources) {
   switch (entryName) {
     case "profile":
       return true;
@@ -95,7 +99,7 @@ function validate(entryName, entry, header, pkg, sources){
   }
 }
 
-function validatePut (entryName, entry, header, pkg, sources) {
+function validatePut(entryName, entry, header, pkg, sources) {
   switch (entryName) {
     case "profile":
       return false;
@@ -107,7 +111,7 @@ function validatePut (entryName, entry, header, pkg, sources) {
 }
 
 
-function validateMod (entryName, entry, header, replaces, pkg, sources) {
+function validateMod(entryName, entry, header, replaces, pkg, sources) {
   switch (entryName) {
     case "profile":
       return false;
@@ -118,7 +122,7 @@ function validateMod (entryName, entry, header, replaces, pkg, sources) {
   }
 }
 
-function validateDel (entryName, hash, pkg, sources) {
+function validateDel(entryName, hash, pkg, sources) {
   switch (entryName) {
     case "profile":
       return false;
@@ -129,7 +133,7 @@ function validateDel (entryName, hash, pkg, sources) {
   }
 }
 
-function validateLink (entryName, baseHash, links, pkg, sources) {
+function validateLink(entryName, baseHash, links, pkg, sources) {
   switch (entryName) {
     case "profile_link":
       return true;
@@ -140,18 +144,18 @@ function validateLink (entryName, baseHash, links, pkg, sources) {
   }
 }
 
-function validatePutPkg (entryName) {
+function validatePutPkg(entryName) {
   return null;
 }
 
-function validateModPkg (entryName) {
+function validateModPkg(entryName) {
   return null;
 }
 
-function validateDelPkg (entryName) {
+function validateDelPkg(entryName) {
   return null;
 }
 
-function validateLinkPkg (entryName) {
+function validateLinkPkg(entryName) {
   return null;
 }

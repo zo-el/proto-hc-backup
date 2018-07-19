@@ -1,98 +1,93 @@
 {
-    "Version": 1,
-    "UUID": "801f73f0-8ab0-11e8-b7db-685b35836414",
-    "Name": "backupApp",
-    "Properties": {
-        "description": "provides local chain backup services via bridging",
-        "language": "en"
-    },
-    "PropertiesSchemaFile": "properties_schema.json",
-    "BasedOn": "",
-    "RequiresVersion": 26,
-    "DHTConfig": {
-        "HashType": "sha2-256",
-        "RedundancyFactor": 0
-    },
-    "Zomes": [
+  "Version": 1,
+  "UUID": "801f73f0-8ab0-11e8-b7db-685b35836414",
+  "Name": "backupApp",
+  "Properties": {
+    "description": "provides local chain backup services via bridging",
+    "language": "en"
+  },
+  "PropertiesSchemaFile": "properties_schema.json",
+  "BasedOn": "",
+  "RequiresVersion": 26,
+  "DHTConfig": {
+    "HashType": "sha2-256",
+    "RedundancyFactor": 0
+  },
+  "Zomes": [{
+      "Name": "backupChain",
+      "Description": "provide a sample zome",
+      "CodeFile": "backupChain.js",
+      "RibosomeType": "js",
+      "BridgeFuncs": ["backup", "restore"],
+      "Config": {
+        "ErrorHandling": "throwErrors"
+      },
+      "Entries": [{
+          "Name": "chain_entry",
+          "DataFormat": "json",
+          "SchemaFile": "chain_entry.json",
+          "Sharing": "public"
+        },
         {
-            "Name": "backupChain",
-            "Description": "provide a sample zome",
-            "CodeFile": "backupChain.js",
-            "RibosomeType": "js",
-            "BridgeFuncs": ["backup", "restore"],
-            "Config": {
-              "ErrorHandling": "throwErrors"
-            },
-            "Entries": [
-                {
-                    "Name": "chain_entry",
-                    "DataFormat": "json",
-                    "SchemaFile": "chain_entry.json",
-                    "Sharing": "public"
-                },
-                {
-                    "Name": "entry_link",
-                    "DataFormat": "links",
-                    "Sharing": "public"
-                }
-            ],
-            "Functions": [
-                {
-                    "Name": "backup",
-                    "CallingType": "json",
-                    "Exposure": "public"
-                },
-                {
-                    "Name": "restore",
-                    "CallingType": "json",
-                    "Exposure": "public"
-                },
-                {
-                    "Name": "backupBatch",
-                    "CallingType": "json",
-                    "Exposure": "public"
-                },
-                {
-                    "Name": "getBackups",
-                    "CallingType": "string",
-                    "Exposure": "public"
-                }
-            ]
+          "Name": "entry_link",
+          "DataFormat": "links",
+          "Sharing": "public"
+        }
+      ],
+      "Functions": [{
+          "Name": "backup",
+          "CallingType": "json",
+          "Exposure": "public"
+        },
+        {
+          "Name": "restore",
+          "CallingType": "json",
+          "Exposure": "public"
+        },
+        {
+          "Name": "backupBatch",
+          "CallingType": "json",
+          "Exposure": "public"
+        },
+        {
+          "Name": "getBackups",
+          "CallingType": "string",
+          "Exposure": "public"
+        }
+      ]
+    },
+    {
+      "Name": "anchors",
+      "Description": "anchors mixin",
+      "RibosomeType": "js",
+      "CodeFile": "anchors.js",
+      "Config": {
+        "ErrorHandling": "throwErrors"
+      },
+      "Entries": [{
+          "Name": "anchor",
+          "DataFormat": "json",
+          "SchemaFile": "anchor.json",
+          "Sharing": "public"
+        },
+        {
+          "Name": "anchor_link",
+          "DataFormat": "links"
+        }
+      ],
+      "Functions": [{
+          "Name": "anchor",
+          "CallingType": "json"
+        },
+        {
+          "Name": "exists",
+          "CallingType": "json"
         },
         {
           "Name": "anchors",
-          "Description": "anchors mixin",
-          "RibosomeType": "js",
-          "CodeFile": "anchors.js",
-          "Config": {
-            "ErrorHandling": "throwErrors"
-          },
-          "Entries": [
-            {
-              "Name": "anchor",
-              "DataFormat": "json",
-              "SchemaFile": "anchor.json",
-              "Sharing": "public"
-            },
-            {
-              "Name": "anchor_link",
-              "DataFormat": "links"
-            }
-          ],
-          "Functions": [
-            {
-              "Name": "anchor",
-              "CallingType": "json"
-            },
-            {
-              "Name": "exists",
-              "CallingType": "json"
-            },
-            {
-              "Name": "anchors",
-              "CallingType": "string"
-            }
-          ]
-      }
-    ]
+          "CallingType": "string"
+        }
+      ]
+    }
+  ]
 }

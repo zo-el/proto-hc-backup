@@ -1,6 +1,5 @@
 {
-  "Tests": [
-    {
+  "Tests": [{
       "Convey": "0. auto-generated test for profileCreate",
       "Zome": "needs_backup",
       "FnName": "profileCreate",

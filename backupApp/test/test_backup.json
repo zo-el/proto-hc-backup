@@ -1,28 +1,31 @@
 {
-    "Tests": [
-        {
-            "Convey": "Can backup an entry object",
-            "Zome": "backupChain",
-            "FnName": "backup",
-            "Input": {
-              "content":{"name": "Saske"},
-              "header":{
-                "entry":"QmYDPMfLSwavWgFcjBbDmpGG3TGZgfuz83QDWiZgECCVZJ",
-                "hash":"QmYDPMfLSwavWgFcjBbDmpGG3TGZgfuz83QDWiZgECCVZJ",
-                "next":"profile_string :QmbJ1qzMVsnTLbBVgRQTv6qTbJsoWbhRf4ADu88hmwVHsC",
-                "nextHeader":"QmbJ1qzMVsnTLbBVgRQTv6qTbJsoWbhRf4ADu88hmwVHsC",
-                "sig":"ga2v12rrbydvfjwkr234QmbJ1qzMVsnTLbBVgRQTv6qTbJsoWbhRf4ADu88hmwVHsC",
-                "time":"2018-07-18T20:07:00Z",
-                "type":"profile_string"},
-              "sourceAppDNA":"%dna%"},
-            "Output": "%h6%"
+  "Tests": [{
+      "Convey": "Can backup an entry object",
+      "Zome": "backupChain",
+      "FnName": "backup",
+      "Input": {
+        "content": {
+          "name": "Saske"
         },
-        {
-            "Convey": "get the agents of the backupApp",
-            "Zome": "backupChain",
-            "FnName": "getBackups",
-            "Input": "%dna%",
-            "Output": "%key%"
-        }
-    ]
+        "header": {
+          "entry": "QmYDPMfLSwavWgFcjBbDmpGG3TGZgfuz83QDWiZgECCVZJ",
+          "hash": "QmYDPMfLSwavWgFcjBbDmpGG3TGZgfuz83QDWiZgECCVZJ",
+          "next": "profile_string :QmbJ1qzMVsnTLbBVgRQTv6qTbJsoWbhRf4ADu88hmwVHsC",
+          "nextHeader": "QmbJ1qzMVsnTLbBVgRQTv6qTbJsoWbhRf4ADu88hmwVHsC",
+          "sig": "ga2v12rrbydvfjwkr234QmbJ1qzMVsnTLbBVgRQTv6qTbJsoWbhRf4ADu88hmwVHsC",
+          "time": "2018-07-18T20:07:00Z",
+          "type": "profile_string"
+        },
+        "sourceAppDNA": "%dna%"
+      },
+      "Output": "%h6%"
+    },
+    {
+      "Convey": "get the agents of the backupApp",
+      "Zome": "backupChain",
+      "FnName": "getBackups",
+      "Input": "%dna%",
+      "Output": "%key%"
+    }
+  ]
 }

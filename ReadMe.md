@@ -15,49 +15,100 @@ This document covers the sequences of recovering a local chain in the case of da
 ```
 hcadmin restore ./apprepo backupAppName
 ```
-This triggers the following actions:
+### This triggers the following actions:
+-
 
-## Test App for Backup's
+
 
 ## Recomended way to use the back-up function
 
-### How to back-up your entries
+### Add the backup Zome
 
-> Need to use call the Zome: backupChain | ZomeFunction: backup ;
-> Recomended to call in the Validation;
+> Need to use bridge the Zome: backupChain | ZomeFunction: backup ;
 
-backupCommit Function:
-~~~
+```
+function genesis(){
+  return true;
+}
 // -----------------------------------------------------------------
 //  Backup Functions
 // -----------------------------------------------------------------
 
-function backupCommit(entryName, entry, header){
-  var backupEnabled = getBackupApps().length > 0;
-
+// payload : {entryName, entry, header}
+function backupCommit(payload){
+  var backupEnabled = getBackupAppsHash().length > 0;
+ debug("Header: "+JSON.stringify(payload.header))
   if (backupEnabled) {
     debug("consumerApp: Calling backup App!");
     var backup_commit = {
     sourceAppDNA:App.DNA.Hash,
     header: {
-      type : entryName,
-      sig : JSON.parse(header.Sig.replace(/ /g,',').replace(/['{''}']/g, '')),
-      hash : makeHash(entryName,entry),
-      time : header.Time,
-      nextHeader : header.NextHeader,
-      next : entryName+" :"+header.Next,
-      entry : header.EntryLink,
+      type : payload.entryName,
+      sig : payload.header.Signature,
+      hash : makeHash(payload.entryName,payload.entry),
+      time : payload.header.Time,
+      nextHeader : payload.header.HeaderLink,
+      next : payload.entryName+" :"+payload.header.TypeLink,
+      entry : payload.header.EntryLink,
     },
-    content:entry,
+    content:payload.entry,
     }
-    bridge(getBackupApps()[0].CalleeApp, 'backupChain', 'backup', backup_commit);
+    debug("Sending to be backed up --->"+JSON.stringify(backup_commit));
+    bridge(getBackupAppsHash()[0].CalleeApp, 'backupChain', 'backup', backup_commit);
   }
 }
-~~~
 
+function loadBackup() {
+  var backup = bridge(getBackupAppsHash()[0].CalleeApp, 'backupChain', 'restore', {"Hash":App.DNA.Hash});
+  return backup
+}
 
-Validation Functions:
-~~~
+function getBackupAppsHash() {
+  return backupApps = getBridges().filter(function(elem) {
+    return elem.CalleeName === 'backupApp'
+  });
+}
+
+function backupAll() {
+
+  debug('about to query')
+  var allEntries = query({
+    Return: {
+      Hashes: true,
+      Entries: true,
+      Headers:true
+    }
+  });
+
+  allEntries.forEach(function (entry){
+      backupCommit({entryName:entry.Header.Type,entry:entry.Entry,header:entry.Header})
+  });
+}
+```
+
+### How to back-up your entries
+
+> Need to call the backup zome functions
+
+```
+// -----------------------------------------------------------------
+//  Callback Backup Functions
+// -----------------------------------------------------------------
+
+function backupCommit(entryName,entry,header) {
+  return call('backup', 'backupCommit', {
+    entryName : entryName,
+    entry : entry,
+    header : header
+  });
+}
+```
+
+### When do we backup ?
+
+> Recomendation : call it when you commit an entry so that every entry is backed-up
+> you can do this is the validateCommit Function
+```
 
 function validateCommit (entryName, entry, header, pkg, sources) {
   if (validate(entryName, entry, header, pkg, sources)) {
@@ -78,25 +129,33 @@ function validate(entryName, entry, header, pkg, sources){
   }
 }
 
-~~~
+```
 
 
-### Need to Load the Chain back
-> need to call Zome: backupChain | ZomeFunction: restore
+### Need to backup the old entries ?
+> If you have not bridged to the app and later you wish to backup. you would have to call the backupAll Function in the backup Zome
 
-~~~
-// -----------------------------------------------------------------
-//  Backup Functions
-// -----------------------------------------------------------------
+```
+function backupAll() {
+  debug('about to query')
+  var allEntries = query({
+    Return: {
+      Hashes: true,
+      Entries: true,
+      Headers:true
+    }
+  });
+  allEntries.forEach(function (entry){
+      backupCommit({entryName:entry.Header.Type,entry:entry.Entry,header:entry.Header})
+  });
+}
+```
+### For testing your backup
+> If you want to check you backup entries you can call the loadBackup Function in the backup Zome.
 
+```
 function loadBackup() {
   var backup = bridge(getBackupApps()[0].CalleeApp, 'backupChain', 'restore', {});
   return backup
 }
-
-function getBackupAppsHash() {
-  return backupApps = getBridges().filter(function(elem) {
-    return elem.CalleeName === 'backupApp'
-  });
-}
-~~~
+```

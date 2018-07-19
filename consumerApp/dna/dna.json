@@ -10,8 +10,7 @@
   "DHTConfig": {
     "HashType": "sha2-256"
   },
-  "Zomes": [
-    {
+  "Zomes": [{
       "Name": "needs_backup",
       "Description": "need to back up this zome",
       "RibosomeType": "js",
@@ -19,8 +18,7 @@
       "Config": {
         "ErrorHandling": "throwErrors"
       },
-      "Entries": [
-        {
+      "Entries": [{
           "Name": "profile",
           "Required": true,
           "DataFormat": "json",
@@ -38,8 +36,7 @@
           "DataFormat": "links"
         }
       ],
-      "Functions": [
-        {
+      "Functions": [{
           "Name": "profileCreate",
           "CallingType": "json",
           "Exposure": "public"
@@ -84,8 +81,7 @@
       "Config": {
         "ErrorHandling": "throwErrors"
       },
-      "Entries": [
-        {
+      "Entries": [{
           "Name": "anchor",
           "DataFormat": "json",
           "SchemaFile": "anchor.json",
@@ -96,8 +92,7 @@
           "DataFormat": "links"
         }
       ],
-      "Functions": [
-        {
+      "Functions": [{
           "Name": "anchor",
           "CallingType": "json"
         },
@@ -110,32 +105,31 @@
           "CallingType": "string"
         }
       ]
-  },
-  {
-    "Name": "backup",
-    "Description": "backupApp mixin",
-    "RibosomeType": "js",
-    "CodeFile": "backup.js",
-    "Config": {
-      "ErrorHandling": "throwErrors"
     },
-    "Entries": [
-      
-    ],
-    "Functions": [
-      {
-        "Name": "backupCommit",
-        "CallingType": "json"
+    {
+      "Name": "backup",
+      "Description": "backupApp mixin",
+      "RibosomeType": "js",
+      "CodeFile": "backup.js",
+      "Config": {
+        "ErrorHandling": "throwErrors"
       },
-      {
-        "Name": "loadBackup",
-        "CallingType": "json"
-      },
-      {
-        "Name": "backupAll",
-        "CallingType": "json"
-      }
-    ]
-}
+      "Entries": [
+
+      ],
+      "Functions": [{
+          "Name": "backupCommit",
+          "CallingType": "json"
+        },
+        {
+          "Name": "loadBackup",
+          "CallingType": "json"
+        },
+        {
+          "Name": "backupAll",
+          "CallingType": "json"
+        }
+      ]
+    }
   ]
 }

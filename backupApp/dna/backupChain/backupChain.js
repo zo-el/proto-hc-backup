@@ -1,4 +1,3 @@
-
 /*=============================================
 =            Public Zome Functions            =
 =============================================*/
@@ -11,9 +10,13 @@
 function backup(entry) {
   debug('commiting backup entry');
   var hash = commit('chain_entry', entry);
-  debug("entry stored at: "+hash);
+  debug("entry stored at: " + hash);
   commit('entry_link', {
-    Links: [ { Base: anchor(entry.sourceAppDNA,App.Key.Hash), Link: hash, Tag: 'backup' } ]
+    Links: [{
+      Base: anchor(entry.sourceAppDNA, App.Key.Hash),
+      Link: hash,
+      Tag: 'backup'
+    }]
   });
   return hash;
 }
@@ -29,7 +32,9 @@ function backupBatch(entries) {
  */
 function restore(sourceApp) {
   debug('restoring chain');
-  var entries = getLinks(anchor(sourceApp.Hash,App.Key.Hash), 'backup', {Load: true});
+  var entries = getLinks(anchor(sourceApp.Hash, App.Key.Hash), 'backup', {
+    Load: true
+  });
   debug(JSON.stringify(entries, null, 2));
   return entries;
 }
@@ -39,12 +44,14 @@ function restore(sourceApp) {
  * Used by the core to to decde which chain to restore
  */
 
-function getBackups(app_hash){
-  debug("returning agent keys of the app : "+app_hash);
-  var entries = getLinks(anchor(app_hash,""), '', {Load: true});
+function getBackups(app_hash) {
+  debug("returning agent keys of the app : " + app_hash);
+  var entries = getLinks(anchor(app_hash, ""), '', {
+    Load: true
+  });
   //debug(JSON.stringify(entries, null, 2));
-  var return_keys=[];
-  entries.forEach(function(elements){
+  var return_keys = [];
+  entries.forEach(function(elements) {
     return_keys.push(elements.Entry.anchorText)
   });
   debug(return_keys)
@@ -79,26 +86,26 @@ function bridgeGenesis(side, dna, appData) {
 }
 
 
-function genesis () {
+function genesis() {
   return true;
 }
 
 
-function validateCommit (entryType, entry, header, pkg, sources) {
+function validateCommit(entryType, entry, header, pkg, sources) {
   return true;
 }
 
 
-function validatePut (entryType, entry, header, pkg, sources) {
+function validatePut(entryType, entry, header, pkg, sources) {
   return true;
 }
 
 
-function validateMod (entryType, entry, header, replaces, pkg, sources) {
+function validateMod(entryType, entry, header, replaces, pkg, sources) {
   return true;
 }
 
-function validateDel (entryType, hash, pkg, sources) {
+function validateDel(entryType, hash, pkg, sources) {
   return true;
 }
 
@@ -107,17 +114,17 @@ function validateLink(entryType, hash, links, pkg, sources) {
 }
 
 
-function validatePutPkg (entryType) {
+function validatePutPkg(entryType) {
   return null;
 }
 
 
-function validateModPkg (entryType) {
+function validateModPkg(entryType) {
   return null;
 }
 
 
-function validateDelPkg (entryType) {
+function validateDelPkg(entryType) {
   return null;
 }
 
