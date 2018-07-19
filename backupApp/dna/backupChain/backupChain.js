@@ -9,11 +9,11 @@
  * @param      {Object}  entry  A local chain entry object to back up                                                                                       `
  */
 function backup(entry) {
-  debug('commiting backup entry')
-  var hash = commit('chainEntry', entry);
+  debug('commiting backup entry');
+  var hash = commit('chain_entry', entry);
   debug("entry stored at: "+hash);
-  commit('entryLink', {
-    Links: [ { Base: anchor(App.Key.Hash,entry.sourceAppDNA), Link: hash, Tag: 'backup' } ]
+  commit('entry_link', {
+    Links: [ { Base: anchor(entry.sourceAppDNA,App.Key.Hash), Link: hash, Tag: 'backup' } ]
   });
   return hash;
 }
@@ -28,11 +28,29 @@ function backupBatch(entries) {
  * Restores an entire local chain and returns it in json object representation
  */
 function restore(sourceApp) {
-  debug('restoring chain')
-  var entries = getLinks(anchor(App.Key.Hash,sourceApp.Hash), 'backup', {Load: true});
-  debug(JSON.stringify(entries, null, 2))
+  debug('restoring chain');
+  var entries = getLinks(anchor(sourceApp.Hash,App.Key.Hash), 'backup', {Load: true});
+  debug(JSON.stringify(entries, null, 2));
   return entries;
 }
+
+/**
+ * get List  of users for one App
+ * Used by the core to to decde which chain to restore
+ */
+
+function getBackups(app_hash){
+  debug("returning agent keys of the app : "+app_hash);
+  var entries = getLinks(anchor(app_hash,""), '', {Load: true});
+  //debug(JSON.stringify(entries, null, 2));
+  var return_keys=[];
+  entries.forEach(function(elements){
+    return_keys.push(elements.Entry.anchorText)
+  });
+  debug(return_keys)
+  return return_keys;
+}
+
 
 /*=====  End of Public Zome Functions  ======*/
 

@@ -25,13 +25,13 @@
             },
             "Entries": [
                 {
-                    "Name": "chainEntry",
+                    "Name": "chain_entry",
                     "DataFormat": "json",
-                    "SchemaFile": "chainEntrySchema.json",
+                    "SchemaFile": "chain_entry.json",
                     "Sharing": "public"
                 },
                 {
-                    "Name": "entryLink",
+                    "Name": "entry_link",
                     "DataFormat": "links",
                     "Sharing": "public"
                 }
@@ -50,6 +50,11 @@
                 {
                     "Name": "backupBatch",
                     "CallingType": "json",
+                    "Exposure": "public"
+                },
+                {
+                    "Name": "getBackups",
+                    "CallingType": "string",
                     "Exposure": "public"
                 }
             ]
