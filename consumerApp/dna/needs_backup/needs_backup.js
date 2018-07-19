@@ -45,7 +45,11 @@ function backupAll() {
   var allEntries = query({
     Return: {
       Hashes: true,
-      Entries: true
+      Entries: true,
+      Headers:true
+    },
+    Constrain: {
+      EntryTypes: ["profile","profileString","%agent"]
     }
   });
 
@@ -69,11 +73,33 @@ function genesis () {
 }
 
 function bridgeGenesis(side, dna, appData) {
-
   // this is where all existing entries should be backed up!
-
-
   return true;
+}
+
+/**** Backup Function ****/
+
+
+function backup(entryName, entry, header){
+  var backupEnabled = getBackupApps().length > 0;
+
+  if (backupEnabled) {
+    debug("consumerApp: Calling backup App!");
+    var backup_commit = {
+    sourceAppDNA:App.DNA.Hash,
+    header: {
+      type : entryName,
+      sig : JSON.parse(header.Sig.replace(/ /g,',').replace(/['{''}']/g, '')),
+      hash : makeHash(entryName,entry),
+      time : header.Time,
+      nextHeader : header.NextHeader,
+      next : entryName+" :"+header.Next,
+      entry : header.EntryLink,
+    },
+    content:entry,
+    }
+    bridge(getBackupApps()[0].CalleeApp, 'backupChain', 'backup', backup_commit);
+  }
 }
 
 // -----------------------------------------------------------------
@@ -83,27 +109,8 @@ function bridgeGenesis(side, dna, appData) {
 function validateCommit (entryName, entry, header, pkg, sources) {
   // debug("entry_type:"+entryName+"entry"+JSON.stringify(entry)+"header"+JSON.stringify(header)+"PKG: "+JSON.stringify(pkg)+"sources"+sources);
 
-
-  var backupEnabled = getBackupApps().length > 0;
-
   if (validate(entryName, entry, header, pkg, sources)) {
-    if (backupEnabled) {
-      debug("consumerApp: Calling backup App!");
-      var backup_commit = {
-      sourceAppDNA:App.DNA.Hash,
-      header: {
-        type : entryName,
-        sig : JSON.parse(header.Sig.replace(/ /g,',').replace(/['{''}']/g, '')),
-        hash : makeHash(entryName,entry),
-        time : header.Time,
-        nextHeader : header.NextHeader,
-        next : entryName+" :"+header.Next,
-        entry : header.EntryLink,
-      },
-      content:entry,
-      }
-      bridge(getBackupApps()[0].CalleeApp, 'backupChain', 'backup', backup_commit);
-    }
+    backup(entryName, entry, header);
     return true;
   }
   return false;
