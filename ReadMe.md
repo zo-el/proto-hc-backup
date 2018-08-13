@@ -18,9 +18,21 @@ hcadmin restore ./apprepo backupAppName
 ### This triggers the following actions:
 -
 
+**Table of Contents**
 
+<!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-## Recomended way to use the back-up function
+- [How to use it in your app ?](#how-to-use-it-in-your-app-?)
+	- [Add the backup Zome](#Add-the-backup-Zome)
+	- [How to back-up your entries ?](#How-to-back-up-your-entries)
+  - [When do we backup ?](#How-to-back-up-your-entries)
+  - [Need to backup the old entries ?](#How-to-back-up-your-entries)
+  - [For testing your backup](#How-to-back-up-your-entries)
+
+<!-- /TOC -->
+
+## How to use it in your app ?
+> Note: Recomended way to use the back-up function
 
 ### Add the backup Zome
 
