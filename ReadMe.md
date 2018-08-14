@@ -18,7 +18,8 @@ hcadmin restore ./apprepo backupAppName
 ### This triggers the following actions:
 -
 
-
+| Backups Links: | [How to backup?](https://github.com/HC-Interns/proto-hc-backup/wiki/How-to-backup-%3F) | [How to use it in your app ?](https://github.com/HC-Interns/proto-hc-backup/wiki/How-to-use-it-in-your-app-%3F) |
+|---|---|---|
 
 ## Recomended way to use the back-up function
 
